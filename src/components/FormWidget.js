@@ -26,7 +26,7 @@ var FormWidget = React.createClass({
     this.onValue(e.target.value);
   },
 
-  render: function () {
+  render() {
     switch (this.props.type) {
       case TYPES.BOOLEAN:
         return (

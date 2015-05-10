@@ -34,7 +34,7 @@ var BipolarSlider = React.createClass({
     ];
   },
 
-  render: function () {
+  render() {
     return (
         <Slider id={this.getID()} className='bipolar'
           name={this.props.name}

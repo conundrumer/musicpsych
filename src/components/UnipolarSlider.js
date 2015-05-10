@@ -33,7 +33,7 @@ var UnipolarSlider = React.createClass({
     ];
   },
 
-  render: function () {
+  render() {
     return (
         <Slider id={this.getID()} className='unipolar'
           name={this.props.name}
