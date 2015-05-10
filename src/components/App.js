@@ -1,20 +1,47 @@
 'use strict';
 
 var React = require('react/addons');
-var ReactTransitionGroup = React.addons.TransitionGroup;
+var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
+var Router = require('react-router');
+var RouteHandler = Router.RouteHandler;
+var Link = Router.Link;
 
+// for bootstrap
+window.jQuery = require('jquery');
 // CSS
 require('normalize.css');
-require('../styles/main.css');
+require('bootstrap-webpack');
+require('../styles/main.less');
 
 
 var App = React.createClass({
-  render: function() {
+
+  getInitialState() {
+    return {
+      mounted: false
+    };
+  },
+
+  componentDidMount() {
+    this.setState({ mounted: true });
+  },
+
+  render() {
     return (
       <div className='main'>
-        <ReactTransitionGroup transitionName="fade">
-          <span>hello world</span>
-        </ReactTransitionGroup>
+        <ReactCSSTransitionGroup transitionName="app-fade">
+          {
+            !this.state.mounted ? null :
+            <div>
+              <p>hello world</p>
+              <ul>
+                <li><Link to="new">New</Link></li>
+                <li><Link to="edit">Edit</Link></li>
+              </ul>
+              <RouteHandler/>
+            </div>
+          }
+        </ReactCSSTransitionGroup>
       </div>
     );
   }
