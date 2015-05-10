@@ -14,6 +14,7 @@ var FormGroup = React.createClass({
     var formData = this.state.formData;
     formData[name] = value;
     this.setState({formData: formData});
+    console.log(name, value);
   },
 
   onSubmit(e) {
@@ -23,7 +24,7 @@ var FormGroup = React.createClass({
 
     if (incompletedForms.length > 0) {
       this.setState({error: true});
-      return
+      return;
     }
     console.log('submigiting');
   },

@@ -66,8 +66,8 @@ var FormWidget = React.createClass({
           <div className="form-group">
             <label>{this.props.question}</label>
             {
-              this.props.choices.map((choice) =>
-                <Input required key={choice}
+              this.props.choices.map((choice, i) =>
+                <Input required key={i}
                   name={this.props.name}
                   type='radio'
                   label={choice}
@@ -76,6 +76,27 @@ var FormWidget = React.createClass({
                 />
               )
             }
+          </div>
+        );
+      case TYPES.SELECT:
+        return (
+          <div className="form-group">
+            <label>{this.props.question}</label>
+            <Input required
+              name={this.props.name}
+              type='select'
+              defaultValue=''
+              onChange={this.onChange}
+            >
+            <option disabled hidden value=''>Select...</option>
+            {
+              this.props.choices.map((choice, i) =>
+                <option key={i} value={choice}>
+                  {choice}
+                </option>
+              )
+            }
+            </Input>
           </div>
         );
       case TYPES.UNIPOLAR:

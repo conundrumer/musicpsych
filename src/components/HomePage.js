@@ -27,6 +27,11 @@ var forms = [{
   question: 'Are you a trained musician?',
   type: TYPES.BOOLEAN
 }, {
+  name: 'color',
+  question: 'Favorite color?',
+  type: TYPES.SELECT,
+  choices: ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
+}, {
   name: 'happiness',
   question: 'How happy are you feeling?',
   type: TYPES.UNIPOLAR,
