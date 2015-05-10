@@ -1,7 +1,7 @@
 'use strict';
 
 var App = require('./App');
-var Manage = require('./Manage');
+var ManagePage = require('./ManagePage');
 var HomePage = require('./HomePage');
 var NewPage = require('./NewPage');
 var EditPage = require('./EditPage');
@@ -15,7 +15,7 @@ var content = document.getElementById('content');
 var Routes = (
   <Route handler={App} path="/">
     <DefaultRoute handler={HomePage} />
-    <Route name="manage" handler={Manage} />
+    <Route name="manage" handler={ManagePage} />
     <Route name="new" handler={NewPage} />
     <Route name="edit" handler={EditPage} />
   </Route>

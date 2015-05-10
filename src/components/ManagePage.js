@@ -9,9 +9,9 @@ var Panel = Bootstrap.Panel;
 
 //var Actions = require('actions/xxx')
 
-require('styles/Manage.less');
+require('styles/ManagePage.less');
 
-var Manage = React.createClass({
+var ManagePage = React.createClass({
 
   render: function () {
     return (
@@ -25,5 +25,5 @@ var Manage = React.createClass({
   }
 });
 
-module.exports = Manage;
+module.exports = ManagePage;
 
