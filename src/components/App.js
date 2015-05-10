@@ -4,7 +4,8 @@ var React = require('react/addons');
 var ReactCSSTransitionGroup = React.addons.CSSTransitionGroup;
 var Router = require('react-router');
 var RouteHandler = Router.RouteHandler;
-var Link = Router.Link;
+var Bootstrap = require('react-bootstrap');
+var PageHeader = Bootstrap.PageHeader;
 
 // for bootstrap
 window.jQuery = require('jquery');
@@ -33,11 +34,7 @@ var App = React.createClass({
           {
             !this.state.mounted ? null :
             <div>
-              <p>hello world</p>
-              <ul>
-                <li><Link to="new">New</Link></li>
-                <li><Link to="edit">Edit</Link></li>
-              </ul>
+              <PageHeader>Online Music Psychology Studies</PageHeader>
               <RouteHandler/>
             </div>
           }
