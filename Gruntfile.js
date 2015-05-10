@@ -29,7 +29,7 @@ module.exports = function (grunt) {
           remote: 'git@github.com:conundrumer/musicpsych.git',
           branch: 'gh-pages'
         }
-      },
+      }
     },
 
     webpack: {
