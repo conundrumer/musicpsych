@@ -10,6 +10,7 @@
   "mainInput": "main",
   "mainOutput": "main",
   "dependencies": {
+    "bootstrap": "^3.3.4",
     "bootstrap-webpack": "0.0.3",
     "firebase": "^2.2.4",
     "grunt-cli": "^0.1.13",
