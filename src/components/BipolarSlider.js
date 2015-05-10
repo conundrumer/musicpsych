@@ -10,7 +10,7 @@ require('styles/BipolarSlider.less');
 var BipolarSlider = React.createClass({
 
   getID() {
-    return `bipolar-slider-${this.props.dimension1}-${this.props.dimension2}`;
+    return `bipolar-${this.props.dimension1}-${this.props.dimension2}`;
   },
 
   getLabels() {
@@ -37,12 +37,14 @@ var BipolarSlider = React.createClass({
   render: function () {
     return (
         <Slider id={this.getID()} className='bipolar'
+          name={this.props.name}
           tooltip='always'
           step={0.1}
           ticks={[1, 2, 3, 4, 5]}
           ticks_labels={this.getLabels()}
           value={3}
           isBipolar={true}
+          onValue={this.props.onValue}
         />
       );
   }

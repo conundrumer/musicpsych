@@ -19,6 +19,14 @@ var Slider = React.createClass({
     return React.findDOMNode(this).firstChild;
   },
 
+  getHandleDOMNode() {
+    return this.getSliderDOMNode().querySelector('.min-slider-handle');
+  },
+
+  getTooltipDOMNode() {
+    return this.getSliderDOMNode().querySelector('.tooltip-main');
+  },
+
   updateClassName(className) {
     var slider = this.getSliderDOMNode();
     var classNames = slider.className.split(' ');
@@ -50,8 +58,7 @@ var Slider = React.createClass({
   },
 
   updateTooltips() {
-    var slider = this.getSliderDOMNode();
-    var tooltip = slider.querySelector('.top');
+    var tooltip = this.getTooltipDOMNode();
     var classNames = tooltip.className.split(' ');
     classNames.pop();
     classNames.push('bottom');
@@ -67,11 +74,19 @@ var Slider = React.createClass({
       _layout();
       this.updateSelection();
     };
+
+    this.slider.on('slideStart', () => this.setState({touched: true}));
+    this.slider.on('change', (values) => this.props.onValue(values.newValue));
+  },
+
+  getInitialState() {
+    return {
+      touched: false
+    };
   },
 
   componentDidMount() {
     this.slider = new BootstrapSlider('#' + this.getID(), this.props);
-
 
     var slider = this.getSliderDOMNode();
     slider.className += ' bootstrap-slider ' + this.props.className;
@@ -80,6 +95,9 @@ var Slider = React.createClass({
 
     slider.insertBefore(slider.children[slider.children.length - 1], slider.firstChild);
     this.updateSelection();
+
+    this.slider._addClass(this.getHandleDOMNode(), 'untouched');
+    this.slider._removeClass(this.getTooltipDOMNode(), 'in');
 
   },
 
@@ -94,10 +112,18 @@ var Slider = React.createClass({
     }
   },
 
+  componentDidUpdate(prevProps, prevState) {
+    if (!prevState.touched && this.state.touched) {
+      this.slider._removeClass(this.getHandleDOMNode(), 'untouched');
+      this.slider._addClass(this.getTooltipDOMNode(), 'in');
+      this.props.onValue(this.slider.getValue());
+    }
+  },
+
   render() {
     return (
       <div className='small'>
-        <input id={this.getID()} type="number"/>
+        <input ref='input' name={this.props.name} id={this.getID()} type="number" required />
       </div>
     );
   }

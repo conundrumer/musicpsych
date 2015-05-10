@@ -1,10 +1,12 @@
 'use strict';
 
 var React = require('react/addons');
+var FormWidget = require('./FormWidget');
 var Bootstrap = require('react-bootstrap');
 var Input = Bootstrap.Input;
-var UnipolarSlider = require('./UnipolarSlider');
-var BipolarSlider = require('./BipolarSlider');
+var TYPES = require('../formWidgetTypes');
+// var UnipolarSlider = require('./UnipolarSlider');
+// var BipolarSlider = require('./BipolarSlider');
 
 //var Actions = require('actions/xxx')
 
@@ -18,18 +20,41 @@ var HomePage = React.createClass({
         <div className='container'>
           <p>Content for HomePage</p>
           <form>
-            <label>What is your sex?</label>
-            <Input name='sex' type='radio' label='Male' value='Male' required />
-            <Input name='sex' type='radio' label='Female' value='Female' required />
-            <label>What is your age?</label>
-            <Input name='age' type='number' min='0' required />
-            <label>Are you a trained musician?</label>
-            <Input name='musical' type='radio' label='Yes' value='Yes' required />
-            <Input name='musical' type='radio' label='No' value='No' required />
-            <label>How happy are you feeling?</label>
-            <UnipolarSlider dimension='happy' />
-            <label>What do you feel is the valence of this thing?</label>
-            <BipolarSlider dimension1='negative' dimension2='positive' />
+            <FormWidget
+              name="sex"
+              question="What is your sex?"
+              type={TYPES.CHOICE}
+              choices={["Male", "Female"]}
+            />
+            <FormWidget
+              name="age"
+              question="What is your age?"
+              type={TYPES.NUMBER}
+              min={0}
+              max={120}
+            />
+            <FormWidget
+              name="musical"
+              question="Are you a trained musician?"
+              type={TYPES.BOOLEAN}
+            />
+            <Input type='submit' />
+          </form>
+          <form>
+            <FormWidget
+              name="happiness"
+              question="How happy are you feeling?"
+              type={TYPES.UNIPOLAR}
+              dimension="happy"
+            />
+            <FormWidget
+              name="valence"
+              question="What is the general mood?"
+              type={TYPES.BIPOLAR}
+              dimension1="negative"
+              dimension2="positive"
+            />
+            <Input type='submit' />
           </form>
         </div>
       );
