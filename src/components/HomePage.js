@@ -8,7 +8,7 @@ require('styles/HomePage.less');
 
 var HomePage = React.createClass({
 
-  render: function () {
+  render() {
     return (
         <div>
           <p>Content for HomePage</p>
@@ -17,5 +17,5 @@ var HomePage = React.createClass({
   }
 });
 
-module.exports = HomePage; 
+module.exports = HomePage;
 

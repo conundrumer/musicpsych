@@ -13,7 +13,7 @@ require('styles/ManagePage.less');
 
 var ManagePage = React.createClass({
 
-  render: function () {
+  render() {
     return (
         <Panel header={<h2>Manage Experiments</h2>}>
           <ul>

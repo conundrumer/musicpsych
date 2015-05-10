@@ -17,7 +17,7 @@ var NewPage = React.createClass({
     };
   },
 
-  render: function () {
+  render() {
     return (
         <div>
           <p>Content for NewPage!</p>

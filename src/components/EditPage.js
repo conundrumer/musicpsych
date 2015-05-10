@@ -12,7 +12,7 @@ require('styles/EditPage.less');
 
 var EditPage = React.createClass({
 
-  render: function () {
+  render() {
     return (
         <div>
           <p>Content for EditPage</p>
