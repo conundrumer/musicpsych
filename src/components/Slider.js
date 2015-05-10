@@ -27,24 +27,59 @@ var Slider = React.createClass({
     slider.className = classNames.join(' ');
   },
 
+  updateSelection() {
+    if (!this.props.isBipolar) {
+      return;
+    }
+
+    let left = Math.min(50, this.slider.percentage[0]);
+    let width = Math.abs(this.slider.percentage[0] - 50);
+
+    this.slider.trackSelection.style.left = left + '%';
+    this.slider.trackSelection.style.width = width + '%';
+    // var self = this;
+    this.slider.ticks.forEach( (tick, i) => {
+        let pos = 25 * (this.slider.options.ticks[i] - 1);
+        if (pos >= left && pos <= left + width) {
+          this.slider._addClass(tick, 'in-selection');
+        } else {
+          this.slider._removeClass(tick, 'in-selection');
+        }
+      }
+    );
+  },
+
+  updateTooltips() {
+    var slider = this.getSliderDOMNode();
+    var tooltip = slider.querySelector('.top');
+    var classNames = tooltip.className.split(' ');
+    classNames.pop();
+    classNames.push('bottom');
+    tooltip.className = classNames.join(' ');
+  },
+
   refresh() {
     this.slider.setAttribute('value', this.slider.getAttribute('value')[0]).refresh();
-    var slider = this.getSliderDOMNode();
-      var s = slider.querySelector('.top');
-      var classNames = s.className.split(' ');
-      classNames.pop();
-      classNames.push('bottom');
-      s.className = classNames.join(' ');
+    this.updateTooltips();
+
+    var _layout = this.slider._layout.bind(this.slider);
+    this.slider._layout = () => {
+      _layout();
+      this.updateSelection();
+    };
   },
 
   componentDidMount() {
     this.slider = new BootstrapSlider('#' + this.getID(), this.props);
+
+
     var slider = this.getSliderDOMNode();
     slider.className += ' bootstrap-slider ' + this.props.className;
     window.addEventListener('resize', this.refresh);
     this.refresh();
 
     slider.insertBefore(slider.children[slider.children.length - 1], slider.firstChild);
+    this.updateSelection();
 
   },
 
