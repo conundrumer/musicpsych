@@ -29,7 +29,7 @@ var App = React.createClass({
 
   render() {
     return (
-      <div className='main'>
+      <div className='container'>
         <ReactCSSTransitionGroup transitionName="app-fade">
           {
             !this.state.mounted ? null :
