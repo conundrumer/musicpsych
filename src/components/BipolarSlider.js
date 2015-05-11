@@ -10,7 +10,7 @@ require('styles/BipolarSlider.less');
 var BipolarSlider = React.createClass({
 
   getID() {
-    return `bipolar-${this.props.dimension1}-${this.props.dimension2}`;
+    return `bipolar-${this.props.dimension1}-${this.props.dimension2}-${this.props.id}`;
   },
 
   getLabels() {

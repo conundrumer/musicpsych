@@ -10,7 +10,7 @@ require('styles/UnipolarSlider.less');
 var UnipolarSlider = React.createClass({
 
   getID() {
-    return 'unipolar-' + this.props.dimension;
+    return `unipolar-${this.props.dimension}-${this.props.id}`;
   },
 
   getLabels() {

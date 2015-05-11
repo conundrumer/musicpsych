@@ -4,6 +4,7 @@ var React = require('react/addons');
 var FormWidget = require('./FormWidget');
 var FormGroup = require('./FormGroup');
 var TYPES = require('../formWidgetTypes');
+var FormBuilder = require('./FormBuilder');
 // var UnipolarSlider = require('./UnipolarSlider');
 // var BipolarSlider = require('./BipolarSlider');
 
@@ -32,6 +33,18 @@ var forms = [{
   type: TYPES.SELECT,
   choices: ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
 }, {
+  name: 'joke',
+  question: 'Whats your favorite joke?',
+  type: TYPES.TEXT
+}, {
+  name: 'longjoke',
+  question: 'Whats your favorite longjoke?',
+  type: TYPES.TEXTBOX
+}, {
+  name: 'todo',
+  question: 'Whats on your TODO list?',
+  type: TYPES.LIST
+}, {
   name: 'happiness',
   question: 'How happy are you feeling?',
   type: TYPES.UNIPOLAR,
@@ -46,11 +59,27 @@ var forms = [{
 
 var HomePage = React.createClass({
 
+  onUpdate(value) {
+    if (value === null) {
+      this.replaceState({type: null});
+    }
+    else {
+      this.setState(value);
+    }
+  },
+
+  getInitialState() {
+    return {
+      type: null
+    };
+  },
+
   render() {
     return (
-        <div className='container'>
+        <div className=''>
           <p>Content for HomePage</p>
           <FormGroup forms={forms} />
+          <FormBuilder onUpdate={(v) => console.log(v)}/>
         </div>
       );
   }

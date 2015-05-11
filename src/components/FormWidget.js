@@ -3,6 +3,7 @@
 var React = require('react/addons');
 var Bootstrap = require('react-bootstrap');
 var Input = Bootstrap.Input;
+var ListBuilder = require('./ListBuilder');
 var UnipolarSlider = require('./UnipolarSlider');
 var BipolarSlider = require('./BipolarSlider');
 var TYPES = require('../formWidgetTypes');
@@ -14,7 +15,8 @@ var FormWidget = React.createClass({
 
   getDefaultProps() {
     return {
-      onValue: (k, v) => console.log(k, v)
+      onValue: (k, v) => console.log(k, v),
+      choices: []
     };
   },
 
@@ -99,6 +101,42 @@ var FormWidget = React.createClass({
             </Input>
           </div>
         );
+      case TYPES.TEXT:
+        return (
+          <div className="form-group">
+            <label>{this.props.question}</label>
+            <Input required
+              name={this.props.name}
+              type='text'
+              placeholder='...'
+              onChange={this.onChange}
+            />
+          </div>
+        );
+      case TYPES.TEXTBOX:
+        return (
+          <div className="form-group">
+            <label>{this.props.question}</label>
+            <Input
+              name={this.props.name}
+              type='textarea'
+              placeholder='...'
+              onChange={this.onChange}
+            />
+          </div>
+        );
+      case TYPES.LIST:
+        return (
+          <div className="form-group">
+            <label>{this.props.question}</label>
+            {
+              <ListBuilder
+                name={this.props.name}
+                onValue={this.onValue}
+              />
+            }
+          </div>
+        );
       case TYPES.UNIPOLAR:
         return (
           <div className="form-group">
@@ -107,6 +145,7 @@ var FormWidget = React.createClass({
               <UnipolarSlider
                 name={this.props.name}
                 dimension={this.props.dimension}
+                id={this.props.id}
                 strong={this.props.strong}
                 onValue={this.onValue}
               />
@@ -122,6 +161,7 @@ var FormWidget = React.createClass({
                 name={this.props.name}
                 dimension1={this.props.dimension1}
                 dimension2={this.props.dimension2}
+                id={this.props.id}
                 strong={this.props.strong}
                 onValue={this.onValue}
               />

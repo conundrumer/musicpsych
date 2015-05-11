@@ -33,7 +33,7 @@ var App = React.createClass({
         <ReactCSSTransitionGroup transitionName="app-fade">
           {
             !this.state.mounted ? null :
-            <div>
+            <div className='main center-block'>
               <PageHeader>Online Music Psychology Studies</PageHeader>
               <RouteHandler/>
             </div>

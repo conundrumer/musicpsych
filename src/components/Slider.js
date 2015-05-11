@@ -36,6 +36,12 @@ var Slider = React.createClass({
   },
 
   updateSelection() {
+    // update labels
+    this.props.ticks_labels.forEach( (label, i) => {
+      if (this.slider.tickLabels[i]) {
+        this.slider.tickLabels[i].innerHTML = label;
+      }
+    });
     if (!this.props.isBipolar) {
       return;
     }
@@ -118,11 +124,12 @@ var Slider = React.createClass({
       this.slider._addClass(this.getTooltipDOMNode(), 'in');
       this.props.onValue(this.slider.getValue());
     }
+    this.refresh();
   },
 
   render() {
     return (
-      <div className='small'>
+      <div className='small react-slider'>
         <input ref='input' name={this.props.name} id={this.getID()} type="number" required />
       </div>
     );
