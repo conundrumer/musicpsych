@@ -3,15 +3,16 @@ var TYPES = require('./formWidgetTypes');
 module.exports = {
   formData: {
     experimentName: `${Math.round(1000 * Math.random())} random tones`,
-    introPage: "In this experiment, you will first evaluate **as many tones as you would like**, then you will complete a demographic survey.",
-    postTestPage: "Now you will complete a demographic survey",
-    endPage: "Thank you for completing this experiment! [Fork me on GitHub](https://github.com/conundrumer/musicpsych)",
+    introPage: 'In this experiment, you will first evaluate **as many tones as you would like**, then you will complete a demographic survey.',
+    interTestPage: 'Thanks for your evaluation! Here\'s another one.',
+    postTestPage: 'Now you will complete a demographic survey',
+    endPage: 'Thank you for completing this experiment! [Fork me on GitHub](https://github.com/conundrumer/musicpsych)',
     stimulus: 'randomIntervals',
-    // instruments: [
-    //   'sine',
-    //   'synth'
-    // ]
-    instruments: 'sine'
+    instruments: [
+      'sine',
+      'synth'
+    ]
+    // instruments: 'sine'
   },
   participantForms: [{
     name: 'gender',

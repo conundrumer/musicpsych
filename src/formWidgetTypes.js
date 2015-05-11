@@ -2,6 +2,7 @@ module.exports = {
   BOOLEAN: 'boolean',
   NUMBER: 'number',
   CHOICE: 'choice',
+  MULTI: 'multi',
   SELECT: 'select',
   TEXT: 'text',
   TEXTBOX: 'textbox',

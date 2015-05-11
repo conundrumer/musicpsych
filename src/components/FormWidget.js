@@ -7,6 +7,7 @@ var ListBuilder = require('./ListBuilder');
 var UnipolarSlider = require('./UnipolarSlider');
 var BipolarSlider = require('./BipolarSlider');
 var TYPES = require('../formWidgetTypes');
+var CheckboxGroup = require('./CheckboxGroup');
 //var Actions = require('actions/xxx')
 
 require('styles/FormWidget.less');
@@ -23,6 +24,7 @@ var FormWidget = React.createClass({
   },
 
   onValue(v) {
+    // console.log(this.props.name, v)
     this.props.onValue(this.props.name, v);
   },
 
@@ -85,6 +87,26 @@ var FormWidget = React.createClass({
                 />
               )
             }
+          </div>
+        );
+      case TYPES.MULTI:
+        return (
+          <div className="form-group">
+            <label>{this.props.question}</label>
+            <CheckboxGroup ref='multi' value={[]}>
+              {
+                this.props.choices.map((choice, i) =>
+                  <Input required={this.props.required} key={i}
+                    name={this.props.name}
+                    type='checkbox'
+                    label={choice}
+                    value={choice}
+                    defaultChecked={this.props.value.some((v) => v === choice)}
+                    onChange={()=>this.onValue(this.refs.multi.getCheckedValues())}
+                  />
+                )
+              }
+            </CheckboxGroup>
           </div>
         );
       case TYPES.SELECT:
