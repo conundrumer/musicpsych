@@ -3,9 +3,9 @@
 var _ = require('lodash');
 var React = require('react/addons');
 var Bootstrap = require('react-bootstrap');
-var Button = Bootstrap.Button;
+// var Button = Bootstrap.Button;
 var TYPES = require('../formWidgetTypes');
-var FormWidget = require('./FormWidget');
+// var FormWidget = require('./FormWidget');
 var FormBuilder = require('./FormBuilder');
 var FormGroup = require('./FormGroup');
 
@@ -17,6 +17,10 @@ var experimentForms = [{
   type: TYPES.TEXT
 }, {
   name: 'introPage',
+  question: 'Introduction Page (markdown)',
+  type: TYPES.TEXTBOX
+}, {
+  name: 'interTestPage',
   question: 'Introduction Page (markdown)',
   type: TYPES.TEXTBOX
 }, {
@@ -35,7 +39,7 @@ var experimentForms = [{
 }, {
   name: 'instruments',
   question: 'Select which instruments to use to play the stimulus',
-  type: TYPES.CHOICE,
+  type: TYPES.MULTI,
   choices: ['sine', 'synth']
 }];
 
