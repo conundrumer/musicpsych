@@ -14,7 +14,7 @@ require('styles/FormSelector.less');
 
 var formSelect = {
   name: 'form types',
-  question: 'Add a new form',
+  question: 'Select a form type',
   type: TYPES.SELECT,
   choices: _.values(TYPES)
 };
@@ -89,38 +89,33 @@ var FormSelector = React.createClass({
 
   onSelect(name, type) {
     this.props.onUpdate({type: type});
-    this.setState({type: type});
   },
 
   onUpdate(name, type) {
     this.props.onUpdate({[name]: type});
-    this.setState({[name]: type});
   },
 
   onRemove() {
     this.props.onUpdate(null);
-    this.replaceState({});
-  },
-
-  getInitialState() {
-    return {};
   },
 
   render() {
     if (this.props.type === null) {
-      return <FormWidget {...formSelect} onValue={this.onSelect} />;
+      return (
+        <Panel bsStyle='info' header={<h3>Create a new form</h3>}>
+          <FormWidget {...formSelect} onValue={this.onSelect} required={false} />
+        </Panel>
+      );
     } else if (formsFields[this.props.type]) {
       return (
-        <Panel header={<h3>Creating a form of type: {this.props.type}</h3>}>
+        <Panel bsStyle='info' header={<h3>Creating a form of type: {this.props.type}</h3>}>
           <div className=''>
           {
             formsFields[this.props.type].map( (formFields, i) =>
-              <FormWidget {...formFields} key={i} onValue={this.onUpdate}/>
+              <FormWidget {...formFields} key={i} onValue={this.onUpdate} value={this.props[formFields.name]}/>
           )}
           <Panel header={<h4>Preview of "{this.props.name}"</h4>}>
-            <form onSubmit={(e)=>e.preventDefault()} >
-              <FormWidget {...this.props} />
-            </form>
+              <FormWidget {...this.props} required={false}/>
           </Panel>
           <Button onClick={this.onRemove}>Remove this form</Button>
           </div>

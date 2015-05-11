@@ -67,9 +67,15 @@ var ListBuilder = React.createClass({
     this.props.onValue(items);
   },
 
-  getInitialState() {
+  getDefaultProps() {
     return {
       items: []
+    };
+  },
+
+  getInitialState() {
+    return {
+      items: this.props.items
     };
   },
 

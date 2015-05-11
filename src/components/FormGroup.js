@@ -1,9 +1,11 @@
 'use strict';
 
+var _ = require('lodash');
 var React = require('react/addons');
 var FormWidget = require('./FormWidget');
 var Bootstrap = require('react-bootstrap');
 var Input = Bootstrap.Input;
+var Panel = Bootstrap.Panel;
 //var Actions = require('actions/xxx')
 
 require('styles/FormGroup.less');
@@ -14,7 +16,7 @@ var FormGroup = React.createClass({
     var formData = this.state.formData;
     formData[name] = value;
     this.setState({formData: formData});
-    console.log(name, value);
+    this.props.onValue(name, value);
   },
 
   onSubmit(e) {
@@ -26,23 +28,44 @@ var FormGroup = React.createClass({
       this.setState({error: true});
       return;
     }
-    console.log('submigiting');
+    this.props.onSubmit();
+  },
+
+  getDefaultProps() {
+    return {
+      formData: {}
+    };
   },
 
   getInitialState() {
     return {
-      formData: {},
+      formData: _.clone(this.props.formData),
       error: false
     };
+  },
+
+  componentDidMount() {
+    _.keys(this.state.formData).forEach((name) =>
+      this.props.onValue(name, this.state.formData[name])
+    );
   },
 
   render() {
     return (
         <form onSubmit={this.onSubmit} >
+          <Panel header={this.props.header} bsStyle='primary'>
           {
             this.props.forms.map((form, i) =>
-              <FormWidget {...form} key={i} onValue={this.onValue} />
+              <FormWidget {...form}
+                key={i}
+                onValue={this.onValue}
+                value={this.state.formData[form.name] || null}
+              />
             )
+          }
+          </Panel>
+          {
+            this.props.children
           }
           <Input type='submit'/>
           {

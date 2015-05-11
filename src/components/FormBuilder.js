@@ -3,6 +3,8 @@
 var _ = require('lodash');
 var React = require('react/addons');
 var FormSelector = require('./FormSelector');
+var Bootstrap = require('react-bootstrap');
+var Panel = Bootstrap.Panel;
 
 //var Actions = require('actions/xxx')
 
@@ -34,22 +36,32 @@ var FormBuilder = React.createClass({
     this.props.onUpdate(forms.filter((f) => f));
   },
 
-  getInitialState() {
+  getDefaultProps() {
     return {
       forms: []
     };
   },
 
+  getInitialState() {
+    return {
+      forms: this.props.forms //initial forms
+    };
+  },
+
+  componentDidMount() {
+    this.onUpdate(this.state.forms);
+  },
+
   render() {
     return (
-        <div>
+        <Panel header={this.props.header} bsStyle='primary'>
           {
             this.state.forms.map((form, i) =>
               <FormSelector {...form} key={i} id={i} onUpdate={(d) => this.onFormUpdated(i, d)}/>
             )
           }
           <FormSelector key={this.state.forms.length} type={null} onUpdate={(d) => this.onFormUpdated(this.state.forms.length, d)}/>
-        </div>
+        </Panel>
       );
   }
 });

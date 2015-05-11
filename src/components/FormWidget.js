@@ -15,8 +15,10 @@ var FormWidget = React.createClass({
 
   getDefaultProps() {
     return {
+      value: null,
       onValue: (k, v) => console.log(k, v),
-      choices: []
+      choices: [],
+      required: true
     };
   },
 
@@ -29,24 +31,27 @@ var FormWidget = React.createClass({
   },
 
   render() {
+    var defaultValue = this.props.value !== null ? this.props.value : '';
     switch (this.props.type) {
       case TYPES.BOOLEAN:
         return (
           <div className="form-group">
             <label>{this.props.question}</label>
-            <Input required
+            <Input required={this.props.required}
               name={this.props.name}
               type='radio'
               label='Yes'
               value={true}
               onChange={this.onChange}
+              defaultChecked={this.props.value === true}
             />
-            <Input required
+            <Input required={this.props.required}
               name={this.props.name}
               type='radio'
               label='No'
               value={false}
               onChange={this.onChange}
+              defaultChecked={this.props.value === false}
             />
           </div>
         );
@@ -54,12 +59,13 @@ var FormWidget = React.createClass({
         return (
           <div className="form-group">
             <label>{this.props.question}</label>
-            <Input required
+            <Input required={this.props.required}
               name={this.props.name}
               type='number'
               min={this.props.min}
               max={this.props.max}
               onChange={this.onChange}
+              defaultValue={defaultValue}
             />
           </div>
         );
@@ -69,12 +75,13 @@ var FormWidget = React.createClass({
             <label>{this.props.question}</label>
             {
               this.props.choices.map((choice, i) =>
-                <Input required key={i}
+                <Input required={this.props.required} key={i}
                   name={this.props.name}
                   type='radio'
                   label={choice}
                   value={choice}
                   onChange={this.onChange}
+                  defaultChecked={this.props.value === choice}
                 />
               )
             }
@@ -84,10 +91,10 @@ var FormWidget = React.createClass({
         return (
           <div className="form-group">
             <label>{this.props.question}</label>
-            <Input required
+            <Input required={this.props.required}
               name={this.props.name}
               type='select'
-              defaultValue=''
+              defaultValue={defaultValue}
               onChange={this.onChange}
             >
             <option disabled hidden value=''>Select...</option>
@@ -105,11 +112,12 @@ var FormWidget = React.createClass({
         return (
           <div className="form-group">
             <label>{this.props.question}</label>
-            <Input required
+            <Input required={this.props.required}
               name={this.props.name}
               type='text'
               placeholder='...'
               onChange={this.onChange}
+              defaultValue={defaultValue}
             />
           </div>
         );
@@ -122,6 +130,7 @@ var FormWidget = React.createClass({
               type='textarea'
               placeholder='...'
               onChange={this.onChange}
+              defaultValue={defaultValue}
             />
           </div>
         );
@@ -133,6 +142,7 @@ var FormWidget = React.createClass({
               <ListBuilder
                 name={this.props.name}
                 onValue={this.onValue}
+                items={defaultValue || []}
               />
             }
           </div>
