@@ -43412,6 +43412,23 @@
 
 	var CONTEXT = new window.AudioContext();
 
+	// https://paulbakaus.com/tutorials/html5/web-audio-on-ios/
+	function unlockWebAudio() {
+
+	  // create empty buffer
+	  var buffer = CONTEXT.createBuffer(1, 1, 22050);
+	  var source = CONTEXT.createBufferSource();
+	  source.buffer = buffer;
+
+	  // connect to output (your speakers)
+	  source.connect(CONTEXT.destination);
+
+	  // play the file
+	  source.start(0);
+	  window.removeEventListener("touchstart", unlockWebAudio, false);
+	}
+	window.addEventListener("touchstart", unlockWebAudio, false);
+
 	var Stimulus = React.createClass({ displayName: "Stimulus",
 
 	  getVariables: function getVariables() {
@@ -43494,7 +43511,7 @@
 	        break;
 	      case "randomTriads":
 	        this.playing = this.neu.Synth(function ($) {
-	          return $("+", { mul: 0.7 }, _this.getGenerator($, instrument, stepToFreq(_this.state.pitch1)), _this.getGenerator($, instrument, stepToFreq(_this.state.pitch2)), _this.getGenerator($, instrument, stepToFreq(_this.state.pitch3)));
+	          return $("+", { mul: 0.5 }, _this.getGenerator($, instrument, stepToFreq(_this.state.pitch1)), _this.getGenerator($, instrument, stepToFreq(_this.state.pitch2)), _this.getGenerator($, instrument, stepToFreq(_this.state.pitch3)));
 	        });
 	        break;
 	    }
