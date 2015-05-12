@@ -5,6 +5,8 @@ var ManagePage = require('./ManagePage');
 var HomePage = require('./HomePage');
 var NewPage = require('./NewPage');
 var EditPage = require('./EditPage');
+var ExperimentPage = require('./ExperimentPage');
+
 var React = require('react');
 var Router = require('react-router');
 var Route = Router.Route;
@@ -17,7 +19,13 @@ var Routes = (
     <DefaultRoute handler={HomePage} />
     <Route name="manage" handler={ManagePage} />
     <Route name="new" handler={NewPage} />
-    <Route name="edit" handler={EditPage} />
+    <Route name="edit" path="edit/:name" handler={EditPage} />
+    <Route name="experiment" path="experiment/:name" handler={ExperimentPage}>
+      <DefaultRoute name="intro" />
+      <Route path=":state" />
+    </Route>
+    <Route name="meta" path="meta/:name" />
+    <Route name="results" path="results/:name" />
   </Route>
 );
 
