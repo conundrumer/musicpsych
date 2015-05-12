@@ -32,6 +32,23 @@ require('styles/Stimulus.less');
 
 var CONTEXT = new window.AudioContext();
 
+// https://paulbakaus.com/tutorials/html5/web-audio-on-ios/
+function unlockWebAudio() {
+
+  // create empty buffer
+  var buffer = CONTEXT.createBuffer(1, 1, 22050);
+  var source = CONTEXT.createBufferSource();
+  source.buffer = buffer;
+
+  // connect to output (your speakers)
+  source.connect(CONTEXT.destination);
+
+  // play the file
+  source.start(0);
+  window.removeEventListener('touchstart', unlockWebAudio, false);
+}
+window.addEventListener('touchstart', unlockWebAudio, false);
+
 var Stimulus = React.createClass({
 
   getVariables() {
