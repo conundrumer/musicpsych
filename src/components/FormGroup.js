@@ -29,6 +29,7 @@ var FormGroup = React.createClass({
       return;
     }
     this.props.onSubmit();
+    this.setState({error: false});
   },
 
   getDefaultProps() {
