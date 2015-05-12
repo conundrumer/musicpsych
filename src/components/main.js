@@ -6,6 +6,7 @@ var HomePage = require('./HomePage');
 var NewPage = require('./NewPage');
 var EditPage = require('./EditPage');
 var ExperimentPage = require('./ExperimentPage');
+var ResultsPage = require('./ResultsPage');
 
 var React = require('react');
 var Router = require('react-router');
@@ -25,7 +26,7 @@ var Routes = (
       <Route path=":state" />
     </Route>
     <Route name="meta" path="meta/:name" />
-    <Route name="results" path="results/:name" />
+    <Route name="results" path="results/:name" handler={ResultsPage} />
   </Route>
 );
 
