@@ -96,7 +96,7 @@ var FormWidget = React.createClass({
             <CheckboxGroup ref='multi' value={[]}>
               {
                 this.props.choices.map((choice, i) =>
-                  <Input required={this.props.required} key={i}
+                  <Input key={i}
                     name={this.props.name}
                     type='checkbox'
                     label={choice}
