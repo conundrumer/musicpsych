@@ -143,6 +143,9 @@ var Stimulus = React.createClass({
   },
 
   render: function () {
+    if (!this.props.instruments) {
+      return <div>No instruments!</div>
+    }
     return (
         <div>
           <ButtonGroup vertical>
