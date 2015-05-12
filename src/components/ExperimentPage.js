@@ -71,6 +71,10 @@ var ExperimentPage = React.createClass({
         };
       case 'end':
         return {
+          extern: {
+            name: 'See the results of this experiment',
+            href: `/results/${this.getParams().name}`
+          }
         };
       case 'test':
         return {
@@ -166,6 +170,11 @@ var ExperimentPage = React.createClass({
         {
           pageState.next ?
             <ButtonLink key='1' to={this.getLink(pageState.next)}>Next</ButtonLink>
+          : null
+        }
+        {
+          pageState.extern ?
+            <ButtonLink key='3' to={pageState.extern.href}>{pageState.extern.name}</ButtonLink>
           : null
         }
       </ButtonToolbar>
