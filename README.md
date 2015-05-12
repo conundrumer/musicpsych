@@ -5,7 +5,7 @@ Psychology of Music Spring 2015 final project
 
 Explanation for lateness
 ------------------------
-So it turns out that writing a webapp instead of a paper may have been poor judgment. I know how to write webapps, and I'm good at coding, but I wouldn't call myself an expert at making webapps really really fast. **Webapps are not trivial!** I can make them decently fast; this project that was a few days of work for me would be acceptable as a final project for the course Web Application Development. I probably should have asked for more of an extension. I hope you understand my circumstance. So I present you a minimal viable product/proof of concept.
+So it turns out that writing a webapp instead of a paper may have been poor judgment. I know how to write webapps, and I'm good at coding, but I wouldn't call myself an expert at making webapps really really fast. **Webapps are not trivial!** I can make them decently fast; this project that was three days of ([continuous](https://github.com/conundrumer/musicpsych/graphs/punch-card)) work (+an initial overhead of researching research methods and frameworks/libraries) for me would be acceptable as a final project for the course Web Application Development. I probably should have asked for more of an extension. I hope you understand my circumstance. So I present to you a minimal viable product/proof of concept. It's not very refined. I'm using Bootstrap's default theme. It could use a lot of improvements on the design. But I hope the user experience isn't too terrible, keeping in mind your request for a decent UX.
 
 Introduction
 ------------
