@@ -1,5 +1,6 @@
 'use strict';
 
+var _ = require('lodash');
 var React = require('react/addons');
 var BootstrapSlider = require('bootstrap-slider');
 
@@ -7,6 +8,7 @@ var BootstrapSlider = require('bootstrap-slider');
 
 require('bootstrap-slider/dist/css/bootstrap-slider.css');
 require('../styles/Slider.less');
+
 
 // TODO validate props to match api
 var Slider = React.createClass({
@@ -116,6 +118,10 @@ var Slider = React.createClass({
     if (nextProps.className !== this.props.className) {
       this.updateClassName(nextProps.className);
     }
+  },
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !_.isEqual(nextProps, this.props);
   },
 
   componentDidUpdate(prevProps, prevState) {
