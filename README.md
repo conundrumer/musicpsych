@@ -10,7 +10,7 @@ So it turns out that writing a webapp instead of a paper may have been poor judg
 Introduction
 ------------
 This project is a framework for online music psychology studies. This was heavily based on this study
-<sup>[1](#singlechords)</sup> where the study was done online through the web browser. This framework provides three functionalities: Experiment creation, experiment hosting, and analysis. Researchers can create music experiments that survey the participant and survey participants' responses to selected stimuli (currently needs to be hardcoded). Participants can evaluate an arbitrary number of stimuli and choose to complete the participant survey. Analysts can view the results of experiments, currently in rudimentary tabular form, but eventually through data visualization.
+<sup>[1](#singlechords)</sup> where the study was done online through the web browser. This framework provides three functionalities: [Experiment creation](http://conundrumer.com/musicpsych/#/new), [experiment hosting](http://conundrumer.com/musicpsych/#/experiment/example), and [analysis](http://conundrumer.com/musicpsych/#/results/random triads 1). Researchers can create music experiments that survey the participant and survey participants' responses to selected stimuli (currently needs to be hardcoded). Participants can evaluate an arbitrary number of stimuli and choose to complete the participant survey. Analysts can view the results of experiments, currently in rudimentary tabular form, but eventually through data visualization.
 
 Motivation
 ----------
