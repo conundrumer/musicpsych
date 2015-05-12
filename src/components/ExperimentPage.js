@@ -11,11 +11,11 @@ var Router = require('react-router');
 var State = Router.State;
 var Navigation = Router.Navigation;
 var Firebase = require('firebase');
+var ReactFireMixin = require('reactfire');
 var FIREBASE_URL = 'https://popping-torch-2685.firebaseio.com/';
 
 var FormGroup = require('./FormGroup');
 var Stimulus = require('./Stimulus');
-var experiment = require('../exampleExperiment');
 
 function alertIfError(err) {
   if (err) {
@@ -39,14 +39,16 @@ var ID = function () {
 };
 
 var ExperimentPage = React.createClass({
-  mixins: [ State, Navigation ],
+  mixins: [ State, Navigation, ReactFireMixin ],
 
   componentWillMount() {
     this.fb = new Firebase(FIREBASE_URL);
+    this.bindAsObject(this.fb.child('experiments').child(this.getParams().name), 'experimentForms');
   },
 
   getInitialState() {
     return {
+      experimentForms: null,
       participantID: ID(),
       numTests: 0,
       testData: {},
@@ -80,8 +82,8 @@ var ExperimentPage = React.createClass({
         return {
           title: 'Test Survey ' + this.state.numTests,
           submit: 'inter-test',
-          stimulus: experiment.formData.stimulus,
-          instruments: experiment.formData.instruments,
+          stimulus: this.state.experimentForms.stimulus,
+          instruments: this.state.experimentForms.instruments,
           exit: 'post-test'
         };
       case 'participant':
@@ -222,23 +224,28 @@ var ExperimentPage = React.createClass({
   renderPage() {
     switch (this.getParams().state) {
       case undefined: // intro page
-        return this.renderInfoPage(experiment.formData.introPage);
+        return this.renderInfoPage(this.state.experimentForms.introPage);
       case 'inter-test':
-        return this.renderInfoPage(experiment.formData.interTestPage);
+        return this.renderInfoPage(this.state.experimentForms.interTestPage);
       case 'post-test':
-        return this.renderInfoPage(experiment.formData.postTestPage);
+        return this.renderInfoPage(this.state.experimentForms.postTestPage);
       case 'end':
-        return this.renderInfoPage(experiment.formData.endPage);
+        return this.renderInfoPage(this.state.experimentForms.endPage);
       case 'test':
-        return this.renderFormPage(experiment.testForms);
+        return this.renderFormPage(this.state.experimentForms.testForms);
       case 'participant':
-        return this.renderFormPage(experiment.participantForms);
+        return this.renderFormPage(this.state.experimentForms.participantForms);
       default:
         return <div>Page Not Found</div>;
     }
   },
 
   render () {
+    if (this.state.experimentForms === null) {
+      return <div>Loading...</div>;
+    } else if (!this.state.experimentForms.experimentName) {
+      return <div>This experiment does not exist.</div>;
+    }
     return (
         <div>
           <h2>{this.getParams().name}</h2>
