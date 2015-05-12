@@ -25404,12 +25404,17 @@
 	      _this.updateSelection();
 	    };
 
-	    this.slider.on("slideStart", function () {
-	      return _this.setState({ touched: true });
-	    });
+	    if (!this.state.touched) {
+	      this.slider.on("slideStart", this.onTouch);
+	    }
+
 	    this.slider.on("change", function (values) {
 	      return _this.props.onValue(values.newValue);
 	    });
+	  },
+
+	  onTouch: function onTouch() {
+	    this.setState({ touched: true });
 	  },
 
 	  getInitialState: function getInitialState() {
@@ -25445,15 +25450,18 @@
 	  },
 
 	  shouldComponentUpdate: function shouldComponentUpdate(nextProps, nextState) {
-	    return !_.isEqual(nextProps, this.props);
+	    return !_.isEqual(nextProps, this.props) || !this.state.touched && nextState.touched;
 	  },
 
-	  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
-	    if (!prevState.touched && this.state.touched) {
+	  componentWillUpdate: function componentWillUpdate(nextProps, nextState) {
+	    if (!this.state.touched && nextState.touched) {
 	      this.slider._removeClass(this.getHandleDOMNode(), "untouched");
 	      this.slider._addClass(this.getTooltipDOMNode(), "in");
 	      this.props.onValue(this.slider.getValue());
 	    }
+	  },
+
+	  componentDidUpdate: function componentDidUpdate(prevProps, prevState) {
 	    this.refresh();
 	  },
 
