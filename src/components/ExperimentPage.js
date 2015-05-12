@@ -10,20 +10,44 @@ var marked = require('marked');
 var Router = require('react-router');
 var State = Router.State;
 var Navigation = Router.Navigation;
+var Firebase = require('firebase');
+var FIREBASE_URL = 'https://popping-torch-2685.firebaseio.com/';
 
 var FormGroup = require('./FormGroup');
+var Stimulus = require('./Stimulus');
 var experiment = require('../exampleExperiment');
+
+function alertIfError(err) {
+  if (err) {
+    alert('Something went wrong with saving your input!');
+  } else {
+    console.log('successfully sent data');
+  }
+}
 
 //var Actions = require('actions/xxx')
 
 require('styles/ExperimentPage.less');
 
+// TODO: GET SESSION IDS
+// https://gist.github.com/gordonbrander/2230317
+var ID = function () {
+  // Math.random should be unique because of its seeding algorithm.
+  // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+  // after the decimal.
+  return '_' + Math.random().toString(36).substr(2, 9);
+};
+
 var ExperimentPage = React.createClass({
   mixins: [ State, Navigation ],
 
+  componentWillMount() {
+    this.fb = new Firebase(FIREBASE_URL);
+  },
+
   getInitialState() {
     return {
-      participantID: Math.random(), // you need to get this from the db
+      participantID: ID(),
       numTests: 0,
       testData: {},
       participantData: {}
@@ -50,7 +74,7 @@ var ExperimentPage = React.createClass({
         };
       case 'test':
         return {
-          title: 'Test Survey',
+          title: 'Test Survey ' + this.state.numTests,
           submit: 'inter-test',
           stimulus: experiment.formData.stimulus,
           instruments: experiment.formData.instruments,
@@ -85,13 +109,23 @@ var ExperimentPage = React.createClass({
   onSubmit() {
     switch (this.getParams().state) {
       case 'test':
-        // send the data
         console.log(
           'sending test data',
           this.state.participantID,
           this.state.numTests,
           this.state.testData
         );
+        // send the data
+        this.fb
+          .child('data')
+          .child(this.getParams().name)
+          .child('test')
+          .push({
+            id: this.state.participantID,
+            time: Date.now(),
+            results: this.state.testData,
+            variables: this.refs.stimulus.getVariables()
+          }, alertIfError);
         this.setState({
           numTests: this.state.numTests + 1,
           testData: {}
@@ -105,6 +139,12 @@ var ExperimentPage = React.createClass({
           this.state.participantData
         );
         //send the data
+        this.fb
+          .child('data')
+          .child(this.getParams().name)
+          .child('participant')
+          .child(this.state.participantID)
+          .set(this.state.participantData, alertIfError);
 
     }
     // reset testData
@@ -119,13 +159,13 @@ var ExperimentPage = React.createClass({
     return (
       <ButtonToolbar>
         {
-          pageState.next ?
-            <ButtonLink key='1' to={this.getLink(pageState.next)}>Next</ButtonLink>
+          pageState.exit ?
+            <ButtonLink key='2' to={this.getLink(pageState.exit)}>End Survey</ButtonLink>
           : null
         }
         {
-          pageState.exit ?
-            <ButtonLink key='2' to={this.getLink(pageState.exit)}>End Survey</ButtonLink>
+          pageState.next ?
+            <ButtonLink key='1' to={this.getLink(pageState.next)}>Next</ButtonLink>
           : null
         }
       </ButtonToolbar>
@@ -148,10 +188,16 @@ var ExperimentPage = React.createClass({
     var pageState = this.getPageState();
     return (
       <div>
-        <Well>
-        {pageState.stimulus}
-        {pageState.instruments}
-        </Well>
+        {
+          pageState.stimulus ?
+          <Well>
+            <Stimulus
+              stimulus={pageState.stimulus}
+              instruments={pageState.instruments}
+            />
+          </Well>
+          : null
+        }
         <FormGroup
           header={<h3>{pageState.title}</h3>}
           forms={forms}
