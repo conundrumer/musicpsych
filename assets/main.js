@@ -43204,7 +43204,7 @@
 	  type: TYPES.TEXTBOX
 	}, {
 	  name: "interTestPage",
-	  question: "Introduction Page (markdown)",
+	  question: "Inter-test Page (markdown)",
 	  type: TYPES.TEXTBOX
 	}, {
 	  name: "postTestPage",
