@@ -2,12 +2,14 @@
 
 var _ = require('lodash');
 var React = require('react/addons');
-var Bootstrap = require('react-bootstrap');
+// var Bootstrap = require('react-bootstrap');
 // var Button = Bootstrap.Button;
 var TYPES = require('../formWidgetTypes');
 // var FormWidget = require('./FormWidget');
 var FormBuilder = require('./FormBuilder');
 var FormGroup = require('./FormGroup');
+var Router = require('react-router');
+var Navigation = Router.Navigation;
 var Firebase = require('firebase');
 var FIREBASE_URL = 'https://popping-torch-2685.firebaseio.com/';
 //var Actions = require('actions/xxx')
@@ -49,6 +51,8 @@ var experimentForms = [{
 require('styles/NewPage.less');
 var NewPage = React.createClass({
 
+  mixins: [ Navigation ],
+
   componentWillMount() {
     this.fb = new Firebase(FIREBASE_URL);
   },
@@ -71,6 +75,7 @@ var NewPage = React.createClass({
           alert("Data could not be saved." + err);
         } else {
           alert("Data saved successfully.");
+          this.transitionTo('/');
         }
       });
   },
