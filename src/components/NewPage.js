@@ -38,7 +38,7 @@ var experimentForms = [{
   name: 'stimulus',
   question: 'Select which musical stimulus to study',
   type: TYPES.SELECT,
-  choices: ['randomIntervals']
+  choices: ['randomIntervals', 'randomTriads']
 }, {
   name: 'instruments',
   question: 'Select which instruments to use to play the stimulus',

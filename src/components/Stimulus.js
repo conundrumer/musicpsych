@@ -30,28 +30,40 @@ function stepToFreq(step) {
 
 require('styles/Stimulus.less');
 
+var CONTEXT = new AudioContext();
+
 var Stimulus = React.createClass({
 
   getVariables() {
-    return {
-      center: this.state.center,
-      interval: this.state.interval
-    };
+    switch (this.props.stimulus) {
+      case 'randomIntervals':
+        return {
+          center: (this.state.pitch1 + this.state.pitch2) / 2,
+          interval: Math.abs(this.state.pitch2 - this.state.pitch1)
+        };
+      case 'randomTriads':
+        var p = [this.state.pitch1, this.state.pitch2, this.state.pitch3].sort();
+        var intervals = [p[0] - p[1], p[1] - p[2]].map(Math.abs);
+        return {
+          center: p.reduce((x, y) => x + y) / 3,
+          lowerInterval: intervals[0],
+          upperInterval: intervals[1]
+        };
+    }
   },
 
   getInitialState() {
     // TODO: get this out to depend on different stimuli
-    var center = 60 + (12 * Math.pow(Math.random(), 2));
-    var interval = 12 * Math.random();
     return {
       instrumentPlaying: null,
-      center: center,
-      interval: interval
+      pitch1: 60 + 12 * Math.random(),
+      pitch2: 60 + 12 * Math.random(),
+      pitch3: 60 + 12 * Math.random()
     };
   },
 
   componentWillMount() {
-    this.neu = neume(new AudioContext());
+    this.neu = neume(CONTEXT);
   },
 
   componentWillUnmount() {
@@ -92,11 +104,16 @@ var Stimulus = React.createClass({
     // TODO: move this to a different file
     switch (this.props.stimulus) {
       case 'randomIntervals':
-        var pitch1 = this.state.center - this.state.interval / 2;
-        var pitch2 = this.state.center + this.state.interval / 2;
         this.playing = this.neu.Synth(($) => $('+', {mul: 0.7},
-          this.getGenerator($, instrument, stepToFreq(pitch1)),
-          this.getGenerator($, instrument, stepToFreq(pitch2))
+          this.getGenerator($, instrument, stepToFreq(this.state.pitch1)),
+          this.getGenerator($, instrument, stepToFreq(this.state.pitch2))
+        ));
+        break;
+      case 'randomTriads':
+        this.playing = this.neu.Synth(($) => $('+', {mul: 0.7},
+          this.getGenerator($, instrument, stepToFreq(this.state.pitch1)),
+          this.getGenerator($, instrument, stepToFreq(this.state.pitch2)),
+          this.getGenerator($, instrument, stepToFreq(this.state.pitch3))
         ));
         break;
     }
