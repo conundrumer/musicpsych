@@ -8,7 +8,8 @@ var TYPES = require('../formWidgetTypes');
 // var FormWidget = require('./FormWidget');
 var FormBuilder = require('./FormBuilder');
 var FormGroup = require('./FormGroup');
-
+var Firebase = require('firebase');
+var FIREBASE_URL = 'https://popping-torch-2685.firebaseio.com/';
 //var Actions = require('actions/xxx')
 
 var experimentForms = [{
@@ -48,6 +49,10 @@ var experimentForms = [{
 require('styles/NewPage.less');
 var NewPage = React.createClass({
 
+  componentWillMount() {
+    this.fb = new Firebase(FIREBASE_URL);
+  },
+
   onValue(name, value) {
     this.setState({[name]: value});
   },
@@ -59,6 +64,15 @@ var NewPage = React.createClass({
   onSubmit() {
     console.log('submitting this:');
     console.log(this.state);
+    // TODO: save name of experiment separately
+    this.fb.child('experiments').child(this.state.experimentName)
+      .set(this.state, (err) => {
+        if (err) {
+          alert("Data could not be saved." + err);
+        } else {
+          alert("Data saved successfully.");
+        }
+      });
   },
 
   getDefaultProps() {
