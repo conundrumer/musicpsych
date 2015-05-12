@@ -54,6 +54,12 @@ var Stimulus = React.createClass({
     this.neu = neume(new AudioContext());
   },
 
+  componentWillUnmount() {
+    if (this.state.instrumentPlaying) {
+      this.playing.stop();
+    }
+  },
+
   getGlyph(instrument) {
     if (this.state.instrumentPlaying === instrument) {
       return 'stop';
