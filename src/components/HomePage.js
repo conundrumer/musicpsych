@@ -1,85 +1,48 @@
 'use strict';
 
+var _ = require('lodash');
 var React = require('react/addons');
-var FormWidget = require('./FormWidget');
-var FormGroup = require('./FormGroup');
-var TYPES = require('../formWidgetTypes');
-var FormBuilder = require('./FormBuilder');
-// var UnipolarSlider = require('./UnipolarSlider');
-// var BipolarSlider = require('./BipolarSlider');
+var ReactFireMixin = require('reactfire');
+var Firebase = require('firebase');
+var Bootstrap = require('react-bootstrap');
+var ButtonGroup = Bootstrap.ButtonGroup;
+var Panel = Bootstrap.Panel;
+var RouterBootstrap = require('react-router-bootstrap');
+var ButtonLink = RouterBootstrap.ButtonLink;
 
+var FIREBASE_URL = 'https://popping-torch-2685.firebaseio.com/';
 //var Actions = require('actions/xxx')
 
 require('styles/HomePage.less');
 
-var forms = [{
-  name: 'sex',
-  question: 'What is your sex?',
-  type: TYPES.CHOICE,
-  choices: ['Male', 'Female']
-}, {
-  name: 'age',
-  question: 'What is your age?',
-  type: TYPES.NUMBER,
-  min: 0,
-  max: 120
-}, {
-  name: 'musical',
-  question: 'Are you a trained musician?',
-  type: TYPES.BOOLEAN
-}, {
-  name: 'color',
-  question: 'Favorite color?',
-  type: TYPES.SELECT,
-  choices: ['red', 'orange', 'yellow', 'green', 'blue', 'purple']
-}, {
-  name: 'joke',
-  question: 'Whats your favorite joke?',
-  type: TYPES.TEXT
-}, {
-  name: 'longjoke',
-  question: 'Whats your favorite longjoke?',
-  type: TYPES.TEXTBOX
-}, {
-  name: 'todo',
-  question: 'Whats on your TODO list?',
-  type: TYPES.LIST
-}, {
-  name: 'happiness',
-  question: 'How happy are you feeling?',
-  type: TYPES.UNIPOLAR,
-  dimension: 'happy'
-}, {
-  name: 'valence',
-  question: 'What is the general mood?',
-  type: TYPES.BIPOLAR,
-  dimension1: 'negative',
-  dimension2: 'positive'
-}];
-
 var HomePage = React.createClass({
+  mixins: [ReactFireMixin],
 
-  onUpdate(value) {
-    if (value === null) {
-      this.replaceState({type: null});
-    }
-    else {
-      this.setState(value);
-    }
+  componentWillMount: function() {
+    this.bindAsObject(new Firebase(FIREBASE_URL).child('experiments'), 'experiments');
   },
 
   getInitialState() {
     return {
-      type: null
+      experiments: {}
     };
   },
 
   render() {
     return (
         <div className=''>
-          <p>Content for HomePage</p>
-          <FormGroup forms={forms} />
-          <FormBuilder onUpdate={(v) => console.log(v)}/>
+          {
+            _.keys(this.state.experiments).map((experiment, i) =>
+              <Panel key={i} header={experiment}>
+              <ButtonGroup>
+                <ButtonLink to={`/experiment/${experiment}`}>View</ButtonLink>
+                <ButtonLink to={`/edit/${experiment}`}>Edit</ButtonLink>
+                <ButtonLink to={`/results/${experiment}`}>Results</ButtonLink>
+              </ButtonGroup>
+              </Panel>
+            )
+          }
+          <ButtonLink to='new'>New Experiment</ButtonLink>
         </div>
       );
   }
