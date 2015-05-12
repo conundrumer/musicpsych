@@ -192,6 +192,7 @@ var ExperimentPage = React.createClass({
           pageState.stimulus ?
           <Well>
             <Stimulus
+              ref='stimulus'
               stimulus={pageState.stimulus}
               instruments={pageState.instruments}
             />

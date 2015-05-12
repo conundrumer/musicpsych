@@ -19,6 +19,7 @@
     "lodash": "^3.8.0",
     "marked": "^0.3.3",
     "material-ui": "^0.7.5",
+    "neume.js": "^0.8.0",
     "normalize.css": "^3.0.3",
     "react": "^0.13.3",
     "react-bootstrap": "^0.21.2",
