@@ -25250,7 +25250,7 @@
 	        }));
 	      case TYPES.MULTI:
 	        return React.createElement("div", { className: "form-group" }, React.createElement("label", null, this.props.question), React.createElement(CheckboxGroup, { ref: "multi", value: [] }, this.props.choices.map(function (choice, i) {
-	          return React.createElement(Input, { required: _this.props.required, key: i,
+	          return React.createElement(Input, { key: i,
 	            name: _this.props.name,
 	            type: "checkbox",
 	            label: choice,
@@ -43526,6 +43526,9 @@
 	  render: function render() {
 	    var _this = this;
 
+	    if (!this.props.instruments) {
+	      return React.createElement("div", null, "No instruments!");
+	    }
 	    return React.createElement("div", null, React.createElement(ButtonGroup, { vertical: true }, this.props.instruments.map(function (instrument, i) {
 	      return React.createElement(Button, {
 	        key: i,
