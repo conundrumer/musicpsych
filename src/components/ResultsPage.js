@@ -52,14 +52,17 @@ var TestDataTable = React.createClass({
                 trigger='click'
                 placement='top'
                 overlay={
-                  this.props.participantData[d.id] ?
-                    <Popover>
+                  <Popover>
+                    {
+                      this.props.participantData[d.id] ?
                       <ParticipantDataTable
                         data={{
                           [d.id]: this.props.participantData[d.id]
                         }}
-                      />
-                    </Popover> : null
+                      /> :
+                      <p>No participant data</p>
+                    }
+                  </Popover>
                 }
               >
                 <tr>
