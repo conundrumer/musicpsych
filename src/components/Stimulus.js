@@ -110,7 +110,7 @@ var Stimulus = React.createClass({
         ));
         break;
       case 'randomTriads':
-        this.playing = this.neu.Synth(($) => $('+', {mul: 0.7},
+        this.playing = this.neu.Synth(($) => $('+', {mul: 0.5},
           this.getGenerator($, instrument, stepToFreq(this.state.pitch1)),
           this.getGenerator($, instrument, stepToFreq(this.state.pitch2)),
           this.getGenerator($, instrument, stepToFreq(this.state.pitch3))
