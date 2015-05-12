@@ -31,6 +31,7 @@ var HomePage = React.createClass({
   render() {
     return (
         <div className=''>
+          <h3>Experiments</h3>
           {
             _.keys(this.state.experiments).map((experiment, i) =>
               <Panel key={i} header={experiment}>
