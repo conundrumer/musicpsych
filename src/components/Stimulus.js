@@ -30,7 +30,7 @@ function stepToFreq(step) {
 
 require('styles/Stimulus.less');
 
-var CONTEXT = new AudioContext();
+var CONTEXT = new window.AudioContext();
 
 var Stimulus = React.createClass({
 
