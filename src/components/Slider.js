@@ -83,8 +83,15 @@ var Slider = React.createClass({
       this.updateSelection();
     };
 
-    this.slider.on('slideStart', () => this.setState({touched: true}));
+    if (!this.state.touched) {
+      this.slider.on('slideStart', this.onTouch);
+    }
+
     this.slider.on('change', (values) => this.props.onValue(values.newValue));
+  },
+
+  onTouch() {
+    this.setState({touched: true});
   },
 
   getInitialState() {
@@ -121,15 +128,18 @@ var Slider = React.createClass({
   },
 
   shouldComponentUpdate(nextProps, nextState) {
-    return !_.isEqual(nextProps, this.props);
+    return !_.isEqual(nextProps, this.props) || !this.state.touched && nextState.touched;
   },
 
-  componentDidUpdate(prevProps, prevState) {
-    if (!prevState.touched && this.state.touched) {
+  componentWillUpdate(nextProps, nextState) {
+    if (!this.state.touched && nextState.touched) {
       this.slider._removeClass(this.getHandleDOMNode(), 'untouched');
       this.slider._addClass(this.getTooltipDOMNode(), 'in');
       this.props.onValue(this.slider.getValue());
     }
+  },
+
+  componentDidUpdate(prevProps, prevState) {
     this.refresh();
   },
 
